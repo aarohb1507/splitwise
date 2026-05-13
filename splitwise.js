@@ -28,7 +28,31 @@ class SplitwiseService{
             this.balances[toUser][fromUser] -= amount
         }
     }
+    
+    addExpense(paidBy, amount, participants){
+        const perHead = amount/participants.length
+        participants.forEach((guy)=> {
+            if(guy != paidBy){
+                this.addBalance(paidBy, guy, perHead)
+            }
+            
+        })
+    }
+    showBalances(){
+    for (const fromUser in this.balances){
+        for (const toUser in this.balances[fromUser]){
+             const amount = this.balances[fromUser][toUser]
+        
+        if (amount > 0){
+            console.log(`${toUser} owes ${amount} to ${fromUser}`)
+        }
+        }
+       
+    }
+}
 }
 const s1 = new SplitwiseService()
-s1.addBalance("Aaroh", "Sourav", 300)
+
+s1.addExpense("Aaroh", 600, ["Aaroh", "Anup", "Sourav"])
 console.log(s1)
+console.log(s1.showBalances())
